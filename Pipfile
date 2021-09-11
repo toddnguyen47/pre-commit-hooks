@@ -11,6 +11,7 @@ pytest = "*"
 black = "*"
 coverage = "*"
 flake8 = "*"
+pylint = "*"
 
 [requires]
 python_version = "3"
