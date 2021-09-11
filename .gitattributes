@@ -1,0 +1,28 @@
+* text=auto, eol=lf
+
+# Additional Source Text here
+*.py text
+
+# Additional Binary here
+
+
+# *********************************************************
+# Below are defaults that should be in most .gitattributes
+# *********************************************************
+
+# Default Config Text
+*.cfg text
+*.csv text
+*.ini text
+*.json text
+*.properties text
+*.toml text
+*.xml text
+*.yaml text
+*.yml text
+
+# Default Binary
+*.jpg binary
+*.jpeg binary
+*.pdf binary
+*.png binary
