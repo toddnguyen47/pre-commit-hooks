@@ -1,7 +1,7 @@
 - id: convert-beginning-tabs
   name: Convert beginning tabs to space
   description: "Replace beginning tabs by space before committing"
-  entry: remove_tabs
+  entry: convert-beginning-tabs
   language: python
   args: [--whitespaces-count, "4"]
   files: ""
