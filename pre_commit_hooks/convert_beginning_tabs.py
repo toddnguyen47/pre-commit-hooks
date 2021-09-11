@@ -6,6 +6,7 @@ import re
 import os
 import argparse
 import sys
+from collections import deque
 
 from pre_commit_hooks import utils
 
@@ -69,9 +70,10 @@ class ConvertBeginningTabs:
         # with Linux line endings
         with open(full_path, mode="rb") as input_file:
             lines = input_file.readlines()
+        lines = deque(lines)
         new_lines = []
         while lines:
-            line = lines.pop()
+            line = lines.popleft()
             line = line.decode(encoding=_ENCODING)
             converted_line = self.convert_tabs_to_spaces(line, num_spaces)
             new_lines.append((converted_line + "\n").encode(_ENCODING))
