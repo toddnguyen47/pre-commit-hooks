@@ -1,0 +1,8 @@
+- id: convert-beginning-tabs
+  name: Convert beginning tabs to space
+  description: "Replace beginning tabs by space before committing"
+  entry: remove_tabs
+  language: python
+  args: [--whitespaces-count, "4"]
+  files: ""
+  exclude: (Makefile|debian/rules|.gitmodules)(\.in)?$
