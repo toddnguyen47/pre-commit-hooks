@@ -1,4 +1,4 @@
-from src.convert_beginning_tabs import ConvertBeginningTabs
+from pre_commit_hooks.convert_beginning_tabs import ConvertBeginningTabs
 
 import pytest
 

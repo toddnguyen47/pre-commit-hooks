@@ -7,7 +7,7 @@ import os
 import argparse
 import sys
 
-import utils
+from pre_commit_hooks import utils
 
 # endregion imports
 
