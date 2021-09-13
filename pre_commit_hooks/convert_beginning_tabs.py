@@ -2,22 +2,19 @@
 
 # region imports
 # *********************************************************
-import re
 import os
 import argparse
 import sys
 from collections import deque
 
-from pre_commit_hooks import utils
+from pre_commit_hooks import utils, constants
 
 # endregion imports
 
 _TMP_FILE = "tmp"
-_ENCODING = "utf-8"
 _SPACE_CHAR = " "
 _INDEX_GROUP_ONLY_SPACES_AND_TABS = 1
 _INDEX_GROUP_REMAINING_CHARACTERS = 2
-_BEGINNING_TABS_PATTERN = re.compile(utils.BEGINNING_TABS_STR)
 
 
 def convert_on_files_with_ext(
@@ -53,9 +50,9 @@ def convert_file_with_temp_output_file(full_path: str, num_spaces: int):
     with open(full_path, mode="rb") as input_file:
         with open(_TMP_FILE, mode="wb") as output_file:
             for line in input_file:
-                line = line.decode(encoding=_ENCODING)
+                line = line.decode(encoding=constants.ENCODING)
                 converted_line = convert_tabs_to_spaces(line, num_spaces)
-                output_file.write((converted_line + "\n").encode(_ENCODING))
+                output_file.write((converted_line + "\n").encode(constants.ENCODING))
     _overwrite_input_file(full_path)
 
 def convert_file(full_path: str, num_spaces: int):
@@ -68,16 +65,16 @@ def convert_file(full_path: str, num_spaces: int):
     new_lines = []
     while lines:
         line = lines.popleft()
-        line = line.decode(encoding=_ENCODING)
+        line = line.decode(encoding=constants.ENCODING)
         converted_line = convert_tabs_to_spaces(line, num_spaces)
-        new_lines.append((converted_line + "\n").encode(_ENCODING))
+        new_lines.append((converted_line + "\n").encode(constants.ENCODING))
 
     with open(full_path, mode="wb") as output_file:
         output_file.writelines(new_lines)
 
 def convert_tabs_to_spaces(input_line: str, num_spaces: int) -> str:
     """Convert tabs to spaces of the current `input_line`"""
-    matcher = _BEGINNING_TABS_PATTERN.match(input_line)
+    matcher = constants.BEGINNING_TABS_PATTERN.match(input_line)
     return_str = ""
 
     if matcher is None:
