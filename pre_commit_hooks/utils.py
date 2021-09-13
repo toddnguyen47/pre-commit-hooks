@@ -11,7 +11,7 @@ def contains_beginning_tabs(filename: str):
         line = line.decode(encoding=constants.ENCODING)
         matcher = constants.BEGINNING_TABS_PATTERN.match(line)
 
-        if matcher is None:
+        if matcher is not None:
             return True
 
     return False
