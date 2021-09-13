@@ -1,6 +1,10 @@
 """Utility functions"""
 
+import re
+
 from pre_commit_hooks import constants
+
+_BEGINNING_HAS_TABS_PATTERN = re.compile(r"(^[\s\S]*?)([\t]+)([\S\s]*)$")
 
 def contains_beginning_tabs(filename: str):
     """Check if `filename` contains tabs"""
@@ -9,9 +13,10 @@ def contains_beginning_tabs(filename: str):
 
     for line in lines:
         line = line.decode(encoding=constants.ENCODING)
-        matcher = constants.BEGINNING_TABS_PATTERN.match(line)
+        matcher = _BEGINNING_HAS_TABS_PATTERN.match(line)
 
         if matcher is not None:
+            # If we match, that means there exists at least one tab
             return True
 
     return False

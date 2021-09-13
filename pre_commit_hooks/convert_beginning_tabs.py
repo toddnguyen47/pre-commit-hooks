@@ -2,6 +2,7 @@
 
 # region imports
 # *********************************************************
+import re
 import os
 import argparse
 import sys
@@ -15,6 +16,9 @@ _TMP_FILE = "tmp"
 _SPACE_CHAR = " "
 _INDEX_GROUP_ONLY_SPACES_AND_TABS = 1
 _INDEX_GROUP_REMAINING_CHARACTERS = 2
+# Import this pattern on https://regex101.com/ for detailed explanation
+_BEGINNING_TABS_PATTERN = re.compile(r"(^[ \t]+)([\S\s]*)")
+
 
 
 def convert_on_files_with_ext(
@@ -74,7 +78,7 @@ def convert_file(full_path: str, num_spaces: int):
 
 def convert_tabs_to_spaces(input_line: str, num_spaces: int) -> str:
     """Convert tabs to spaces of the current `input_line`"""
-    matcher = constants.BEGINNING_TABS_PATTERN.match(input_line)
+    matcher = _BEGINNING_TABS_PATTERN.match(input_line)
     return_str = ""
 
     if matcher is None:
