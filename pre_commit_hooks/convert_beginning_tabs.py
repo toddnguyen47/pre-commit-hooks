@@ -2,7 +2,6 @@
 
 # region imports
 # *********************************************************
-import re
 import os
 import argparse
 import sys
@@ -23,8 +22,7 @@ class ConvertBeginningTabs:
     """Convert Beginning Tabs to Spaces"""
 
     def __init__(self) -> None:
-        # Import this pattern on https://regex101.com/ for detailed explanation
-        self._pattern = re.compile(r"(^[ \t]+)([\S\s]*)")
+        pass
 
     def convert_on_files_with_ext(
         self, file_path: str, num_spaces: int, file_extension: str = ""
@@ -83,7 +81,7 @@ class ConvertBeginningTabs:
 
     def convert_tabs_to_spaces(self, input_line: str, num_spaces: int) -> str:
         """Convert tabs to spaces of the current `input_line`"""
-        matcher = self._pattern.match(input_line)
+        matcher = utils.BEGINING_TABS_PATTERN.match(input_line)
         return_str = ""
 
         if matcher is None:
@@ -155,7 +153,7 @@ def main(argv=None):
     parser.add_argument("filenames", nargs="*", help="filenames to check")
     args = parser.parse_args(argv)
 
-    files_with_tabs = [file1 for file1 in args.filenames if utils.contains_tabs(file1)]
+    files_with_tabs = [file1 for file1 in args.filenames if utils.contains_beginning_tabs(file1)]
     convert_beginning_tabs = ConvertBeginningTabs()
 
     for file_with_tabs in files_with_tabs:
