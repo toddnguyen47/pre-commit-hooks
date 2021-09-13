@@ -3,7 +3,8 @@
 import re
 
 # Import this pattern on https://regex101.com/ for detailed explanation
-BEGINING_TABS_PATTERN = re.compile(r"(^[ \t]+)([\S\s]*)")
+BEGINNING_TABS_STR = r"(^[ \t]+)([\S\s]*)"
+_BEGINNING_TABS_PATTERN = re.compile(BEGINNING_TABS_STR)
 
 
 def contains_beginning_tabs(filename: str):
@@ -12,7 +13,7 @@ def contains_beginning_tabs(filename: str):
         lines = file_checked.readlines()
 
     for line in lines:
-        matcher = BEGINING_TABS_PATTERN.match(line)
+        matcher = _BEGINNING_TABS_PATTERN.match(line)
 
         if matcher is None:
             return True
