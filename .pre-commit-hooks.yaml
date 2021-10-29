@@ -13,3 +13,4 @@
   language: python
   args: ["--textfiles", "file1.txt, file2.txt"]
   files: ""
+  additional_dependencies: ["dominate"]
