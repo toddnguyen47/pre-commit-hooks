@@ -13,4 +13,6 @@ repos:
     hooks:
       - id: convert-beginning-tabs
         args: ["--whitespaces-count", "2"] # defaults to 4 with no args
+      - id: convert-text-to-html
+        args: ["--textfiles", "file1.txt, file2.txt"] # comma-separated list of text files
 ```

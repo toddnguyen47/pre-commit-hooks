@@ -3,6 +3,13 @@
   description: "Replace beginning tabs by space before committing"
   entry: convert-beginning-tabs
   language: python
-  args: [--whitespaces-count, "4"]
+  args: ["--whitespaces-count", "4"]
   files: ""
   exclude: (Makefile|debian/rules|.gitmodules)(\.in)?$
+- id: convert-text-to-html
+  name: Convert text to html
+  description: "Convert text to html, where each line is a `<p>` element"
+  entry: convert-text-to-html
+  language: python
+  args: ["--textfiles", "file1.txt, file2.txt"]
+  files: ""
