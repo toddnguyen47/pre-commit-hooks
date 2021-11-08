@@ -14,3 +14,9 @@
   args: ["--textfiles", "file1.txt, file2.txt"]
   files: ""
   additional_dependencies: ["dominate"]
+- id: minify-json
+  name: Minify JSON files
+  description: Minify JSON files to remove excess whitespace
+  entry: minify-json
+  language: python
+  files: ""
