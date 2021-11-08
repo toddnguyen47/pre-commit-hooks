@@ -1,4 +1,4 @@
-"""Minify JSON files"""
+"""Minify JSON files / Make JSON files compact"""
 
 import json
 import argparse
