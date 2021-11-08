@@ -31,6 +31,7 @@ def _generate_html_from_txt(doc_title: str, input_str: str) -> dominate.document
 
     return doc
 
+
 def _handle_file(file_path: str):
     """Convert current file to HTML"""
     data = ""

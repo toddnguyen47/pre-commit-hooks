@@ -6,6 +6,7 @@ from pre_commit_hooks import constants
 
 _BEGINNING_HAS_TABS_PATTERN = re.compile(r"(^[ ]*)(\t+)([\S\s]*)$")
 
+
 def contains_beginning_tabs(filename: str):
     """Check if `filename` contains tabs"""
     with open(filename, mode="rb") as file_checked:

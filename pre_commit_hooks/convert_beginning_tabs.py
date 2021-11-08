@@ -20,7 +20,6 @@ _INDEX_GROUP_REMAINING_CHARACTERS = 2
 _BEGINNING_TABS_PATTERN = re.compile(r"(^[ \t]+)([\S\s]*)")
 
 
-
 def convert_on_files_with_ext(
     file_path: str, num_spaces: int, file_extension: str = ""
 ):
@@ -45,6 +44,7 @@ def convert_on_files_with_ext(
                 full_path = os.path.join(root, file)
                 convert_file_with_temp_output_file(full_path, num_spaces)
 
+
 def convert_file_with_temp_output_file(full_path: str, num_spaces: int):
     """Convert file with beginning tabs to spaces. This function will write to a temporary file instead of
     storing it in buffer."""
@@ -58,6 +58,7 @@ def convert_file_with_temp_output_file(full_path: str, num_spaces: int):
                 converted_line = convert_tabs_to_spaces(line, num_spaces)
                 output_file.write((converted_line + "\n").encode(constants.ENCODING))
     _overwrite_input_file(full_path)
+
 
 def convert_file(full_path: str, num_spaces: int):
     """Convert a file's beginning tabs to spaces"""
@@ -76,6 +77,7 @@ def convert_file(full_path: str, num_spaces: int):
     with open(full_path, mode="wb") as output_file:
         output_file.writelines(new_lines)
 
+
 def convert_tabs_to_spaces(input_line: str, num_spaces: int) -> str:
     """Convert tabs to spaces of the current `input_line`"""
     matcher = _BEGINNING_TABS_PATTERN.match(input_line)
@@ -85,9 +87,7 @@ def convert_tabs_to_spaces(input_line: str, num_spaces: int) -> str:
         return_str = input_line
     else:
         tabs_str = matcher.group(_INDEX_GROUP_ONLY_SPACES_AND_TABS)
-        space_str = _replace_tabs_with_respect_to_beginning_spaces(
-            tabs_str, num_spaces
-        )
+        space_str = _replace_tabs_with_respect_to_beginning_spaces(tabs_str, num_spaces)
         return_str = space_str + matcher.group(_INDEX_GROUP_REMAINING_CHARACTERS)
 
     return return_str.rstrip()
@@ -150,7 +150,9 @@ def main(argv=None):
     parser.add_argument("filenames", nargs="*", help="filenames to check")
     args = parser.parse_args(argv)
 
-    files_with_tabs = [file1 for file1 in args.filenames if utils.contains_beginning_tabs(file1)]
+    files_with_tabs = [
+        file1 for file1 in args.filenames if utils.contains_beginning_tabs(file1)
+    ]
 
     for file_with_tabs in files_with_tabs:
         print(

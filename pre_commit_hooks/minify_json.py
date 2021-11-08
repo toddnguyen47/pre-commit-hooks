@@ -8,6 +8,7 @@ import sys
 _ENCODING = "utf-8"
 _ERROR_CODE_JSON_FILES_WRITTEN = 1
 
+
 def main(argv: Optional[Sequence[str]] = None) -> int:
     """Main function to run"""
     parser = argparse.ArgumentParser()
@@ -20,7 +21,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
             data = curfile.read().strip()
             data_json = json.loads(data)
         # Ref: https://stackoverflow.com/a/33233406/6323360
-        minified_json = json.dumps(data_json, separators=(',', ':')).strip()
+        minified_json = json.dumps(data_json, separators=(",", ":")).strip()
         if data != minified_json:
             return_code = max(return_code, _ERROR_CODE_JSON_FILES_WRITTEN)
             with open(filename, "w", encoding=_ENCODING) as curfile:
@@ -28,6 +29,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
                 curfile.write("\n")
 
     return return_code
+
 
 if __name__ == "__main__":
     sys.exit(main())
