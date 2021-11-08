@@ -1,3 +1,5 @@
+"""Convert text to HTML where each line is a <p> element"""
+
 from typing import Optional, Sequence
 import sys
 import argparse
@@ -29,6 +31,18 @@ def _generate_html_from_txt(doc_title: str, input_str: str) -> dominate.document
 
     return doc
 
+def _handle_file(file_path: str):
+    """Convert current file to HTML"""
+    data = ""
+    with open(file_path, "r") as input_file:
+        data = input_file.read()
+    head, tail = os.path.split(file_path)
+    root, _extension = os.path.splitext(tail)
+    html_str = _generate_html_from_txt(root, data)
+    outfile = os.path.join(head, root + ".html")
+    with open(outfile, "w") as output_file:
+        output_file.write(str(html_str))
+
 
 def main(argv: Optional[Sequence[str]] = None) -> int:
     """Main Function"""
@@ -44,16 +58,8 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     for index, file1 in enumerate(list_of_files):
         list_of_files[index] = file1.strip()
 
-    for file1 in list_of_files:
-        data = ""
-        with open(file1, "r") as input_file:
-            data = input_file.read()
-        head, tail = os.path.split(file1)
-        root, _extension = os.path.splitext(tail)
-        html_str = _generate_html_from_txt(root, data)
-        outfile = os.path.join(head, root + ".html")
-        with open(outfile, "w") as output_file:
-            output_file.write(str(html_str))
+    for file_path in list_of_files:
+        _handle_file(file_path)
 
     return 0
 
