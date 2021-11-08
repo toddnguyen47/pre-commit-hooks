@@ -22,7 +22,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         # Ref: https://stackoverflow.com/a/33233406/6323360
         minified_json = json.dumps(data_json, separators=(',', ':')).strip()
         if data != minified_json:
-            return_code = _ERROR_CODE_JSON_FILES_WRITTEN
+            return_code = max(return_code, _ERROR_CODE_JSON_FILES_WRITTEN)
             with open(filename, "w", encoding=_ENCODING) as curfile:
                 curfile.write(minified_json)
                 curfile.write("\n")
