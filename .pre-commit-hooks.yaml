@@ -1,22 +1,19 @@
 - id: convert-beginning-tabs
   name: Convert beginning tabs to space
-  description: "Replace beginning tabs by space before committing"
   entry: convert-beginning-tabs
   language: python
+  description: "Replace beginning tabs by space before committing"
   args: ["--whitespaces-count", "4"]
-  files: ""
   exclude: (Makefile|debian/rules|.gitmodules)(\.in)?$
 - id: convert-text-to-html
   name: Convert text to html
-  description: "Convert text to html, where each line is a `<p>` element"
   entry: convert-text-to-html
   language: python
+  description: "Convert text to html, where each line is a `<p>` element"
   args: ["--textfiles", "file1.txt, file2.txt"]
-  files: ""
   additional_dependencies: ["dominate"]
 - id: minify-json
   name: Minify JSON files
-  description: Minify JSON files to remove excess whitespace
   entry: minify-json
   language: python
-  files: ""
+  description: Minify JSON files to remove excess whitespace
