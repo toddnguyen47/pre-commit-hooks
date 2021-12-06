@@ -16,4 +16,6 @@ repos:
       - id: convert-text-to-html
         args: ["--textfiles", "file1.txt, file2.txt"] # comma-separated list of text files
       - id: minify-json
+      - id: prettify-json
+        args: ["--indent", "2"] # defaults to indenting with 2 spaces
 ```

@@ -17,3 +17,9 @@
   entry: minify-json
   language: python
   description: Minify JSON files to remove excess whitespace
+- id: prettify-json
+  name: Prettify JSON files
+  entry: prettify-json
+  language: python
+  description: Prettify JSON files with indents
+  args: ["--indent", "2"]
