@@ -12,7 +12,7 @@ _DELIM = ","
 
 
 def _generate_html_from_txt(
-    doc_title: str, input_str: str, margin: int
+    doc_title: str, input_str: str, margin: float
 ) -> dominate.document:
     """Generate a simple HTML file from txt file"""
     doc = dominate.document(title=doc_title)
@@ -32,13 +32,13 @@ def _generate_html_from_txt(
     return doc
 
 
-def _get_css_style(margin: int) -> str:
+def _get_css_style(margin: float) -> str:
     """Generate CSS style"""
     with_margin_str = f"margin-left:{margin}em;margin-right:{margin}em"
     style_list = [
         r"*,*::after,*::before{box-sizing:border-box}body{font-size:1rem}",
         r"p.pmd-text{font-family:monospace}div.content{margin-left:0;margin-right:0}",
-        r"@media (min-width: 700px)",
+        r"@media (min-width: 600px)",
         r"{div.content",
         r"{" + with_margin_str + r"}",
         r"}",
@@ -46,7 +46,7 @@ def _get_css_style(margin: int) -> str:
     return "".join(style_list)
 
 
-def _handle_file(file_path: str, margin: int):
+def _handle_file(file_path: str, margin: float):
     """Convert current file to HTML"""
     data = ""
     with open(file_path, "r") as input_file:
@@ -68,7 +68,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     )
     parser.add_argument(
         "--margin",
-        help="optional integer `em` value to use as margin. Defaults to `10em`",
+        help="optional float `em` value to use as margin. Defaults to `10em`",
         default=10,
     )
     args = parser.parse_args(argv)

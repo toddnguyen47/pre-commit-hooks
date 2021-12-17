@@ -14,8 +14,12 @@ repos:
       - id: convert-beginning-tabs
         args: ["--whitespaces-count", "2"] # defaults to 4 with no args
       - id: convert-text-to-html
-        args: ["--textfiles", "file1.txt, file2.txt"] # comma-separated list of text files
-        args: ["--margin", "10"] # OPTIONAL: integer value to use as margin ems. Defaults to 10.
+        args: [
+            "--textfiles",
+            "file1.txt, file2.txt", # comma-separated list of text files
+            "--margin",
+            "10" # OPTIONAL: float value to use as margin ems. Defaults to 10.
+        ]
       - id: minify-json
       - id: prettify-json
         args: ["--indent", "2"] # defaults to indenting with 2 spaces
