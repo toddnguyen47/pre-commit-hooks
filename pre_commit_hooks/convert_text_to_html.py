@@ -26,11 +26,6 @@ def _generate_html_from_txt(
         with tags.div(_class="content"):
             if input_str.strip():
                 for line in input_str.split("\n"):
-                    line = (
-                        line.replace("\\\\", "\\")
-                        .replace("\\", "/")
-                        .replace("/", " / ")
-                    )
                     tags.p(line, _class="pmd-text")
             else:
                 tags.p("You're good! No errors ✨ 🍰 ✨", _class="pmd-text")
@@ -43,7 +38,8 @@ def _get_css_style(margin: float) -> str:
     with_margin_str = f"margin-left:{margin}em;margin-right:{margin}em"
     style_list = [
         r"*,*::after,*::before{box-sizing:border-box}body{font-size:1rem;}",
-        r"p.pmd-text{font-family:monospace;color:#80cbc4;background-color:#000000;margin-bottom:2em;}",
+        r"p.pmd-text{font-family:monospace;color:#80cbc4;background-color:#000000;",
+        r"margin-bottom:2em;overflow-wrap:break-word;}",
         r"div.content{margin-left:0;margin-right:0}",
         r"@media (min-width: 800px)",
         r"{div.content",
