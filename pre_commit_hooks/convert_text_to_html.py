@@ -11,16 +11,15 @@ from dominate import tags
 _DELIM = ","
 
 
-def _generate_html_from_txt(doc_title: str, input_str: str) -> dominate.document:
+def _generate_html_from_txt(
+    doc_title: str, input_str: str, margin: int
+) -> dominate.document:
     """Generate a simple HTML file from txt file"""
     doc = dominate.document(title=doc_title)
 
     with doc.head:
-        tags.style(
-            r"*,*::after,*::before{box-sizing:border-box}body{font-size:1rem}"
-            + r"p.pmd-text{font-family:monospace}div.content{margin-left:0;margin-right:0}"
-            + r"@media (min-width: 700px){div.content{margin-left:10em;margin-right:10em}}"
-        )
+        css_style = _get_css_style(margin)
+        tags.style(css_style)
 
     with doc:
         with tags.div(_class="content"):
@@ -33,14 +32,28 @@ def _generate_html_from_txt(doc_title: str, input_str: str) -> dominate.document
     return doc
 
 
-def _handle_file(file_path: str):
+def _get_css_style(margin: int) -> str:
+    """Generate CSS style"""
+    with_margin_str = f"margin-left:{margin}em;margin-right:{margin}em"
+    style_list = [
+        r"*,*::after,*::before{box-sizing:border-box}body{font-size:1rem}",
+        r"p.pmd-text{font-family:monospace}div.content{margin-left:0;margin-right:0}",
+        r"@media (min-width: 700px)",
+        r"{div.content",
+        r"{" + with_margin_str + r"}",
+        r"}",
+    ]
+    return "".join(style_list)
+
+
+def _handle_file(file_path: str, margin: int):
     """Convert current file to HTML"""
     data = ""
     with open(file_path, "r") as input_file:
         data = input_file.read()
     head, tail = os.path.split(file_path)
     root, _extension = os.path.splitext(tail)
-    html_str = _generate_html_from_txt(root, data)
+    html_str = _generate_html_from_txt(root, data, margin)
     outfile = os.path.join(head, root + ".html")
     with open(outfile, "w") as output_file:
         output_file.write(str(html_str))
@@ -53,6 +66,11 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     parser.add_argument(
         "--textfiles", help="comma separated list of text files to convert"
     )
+    parser.add_argument(
+        "--margin",
+        help="optional integer `em` value to use as margin. Defaults to `10em`",
+        default=10,
+    )
     args = parser.parse_args(argv)
 
     comma_sep_files = args.textfiles
@@ -61,7 +79,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         list_of_files[index] = file1.strip()
 
     for file_path in list_of_files:
-        _handle_file(file_path)
+        _handle_file(file_path, args.margin)
 
     return 0
 
