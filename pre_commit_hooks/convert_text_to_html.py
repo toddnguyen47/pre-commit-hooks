@@ -9,6 +9,7 @@ import dominate
 from dominate import tags
 
 _DELIM = ","
+_ENCODING = "utf-8"
 
 
 def _generate_html_from_txt(
@@ -25,6 +26,11 @@ def _generate_html_from_txt(
         with tags.div(_class="content"):
             if input_str.strip():
                 for line in input_str.split("\n"):
+                    line = (
+                        line.replace("\\\\", "\\")
+                        .replace("\\", "/")
+                        .replace("/", " / ")
+                    )
                     tags.p(line, _class="pmd-text")
             else:
                 tags.p("You're good! No errors ✨ 🍰 ✨", _class="pmd-text")
@@ -36,9 +42,10 @@ def _get_css_style(margin: float) -> str:
     """Generate CSS style"""
     with_margin_str = f"margin-left:{margin}em;margin-right:{margin}em"
     style_list = [
-        r"*,*::after,*::before{box-sizing:border-box}body{font-size:1rem}",
-        r"p.pmd-text{font-family:monospace}div.content{margin-left:0;margin-right:0}",
-        r"@media (min-width: 600px)",
+        r"*,*::after,*::before{box-sizing:border-box}body{font-size:1rem;}",
+        r"p.pmd-text{font-family:monospace;color:#80cbc4;background-color:#000000;margin-bottom:2em;}",
+        r"div.content{margin-left:0;margin-right:0}",
+        r"@media (min-width: 800px)",
         r"{div.content",
         r"{" + with_margin_str + r"}",
         r"}",
@@ -49,13 +56,13 @@ def _get_css_style(margin: float) -> str:
 def _handle_file(file_path: str, margin: float):
     """Convert current file to HTML"""
     data = ""
-    with open(file_path, "r") as input_file:
+    with open(file_path, "r", encoding=_ENCODING) as input_file:
         data = input_file.read()
     head, tail = os.path.split(file_path)
     root, _extension = os.path.splitext(tail)
     html_str = _generate_html_from_txt(root, data, margin)
     outfile = os.path.join(head, root + ".html")
-    with open(outfile, "w") as output_file:
+    with open(outfile, "w", encoding=_ENCODING) as output_file:
         output_file.write(str(html_str))
 
 
