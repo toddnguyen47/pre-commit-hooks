@@ -17,8 +17,9 @@ def _generate_html_from_txt(doc_title: str, input_str: str) -> dominate.document
 
     with doc.head:
         tags.style(
-            r"html{font-size:62.5%;}body{font-size:1.8rem;}div.content{width:1024px;margin:auto;}"
-            + r"p.pmd-text{font-family:monospace;}"
+            r"*,*::after,*::before{box-sizing:border-box}body{font-size:1rem}"
+            + r"p.pmd-text{font-family:monospace}div.content{margin-left:0;margin-right:0}"
+            + r"@media (min-width: 700px){div.content{margin-left:10em;margin-right:10em}}"
         )
 
     with doc:
