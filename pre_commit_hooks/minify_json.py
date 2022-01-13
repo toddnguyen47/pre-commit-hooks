@@ -28,7 +28,9 @@ def handle_per_file(filename: str, return_code: int) -> int:
         data_json = json.loads(data)
     # Ref: https://stackoverflow.com/a/33233406/6323360
     minified_json = json.dumps(data_json, separators=(",", ":")).strip()
-    output_return_code = json_helper.output_file(filename, data, minified_json, return_code)
+    output_return_code = json_helper.output_file(
+        filename, data, minified_json, return_code
+    )
     return_code = max(return_code, output_return_code)
     return return_code
 
