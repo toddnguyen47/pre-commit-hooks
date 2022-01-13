@@ -16,12 +16,12 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
 
     return_code = 0
     for filename in args.filenames:
-        return_code = handle_per_file(filename, return_code)
+        return_code = _handle_per_file(filename, return_code)
 
     return return_code
 
 
-def handle_per_file(filename: str, return_code: int) -> int:
+def _handle_per_file(filename: str, return_code: int) -> int:
     """Handle per file"""
     with open(filename, "r", encoding=constants.ENCODING) as curfile:
         data = curfile.read().strip()
