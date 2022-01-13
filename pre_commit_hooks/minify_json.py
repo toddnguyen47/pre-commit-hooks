@@ -5,8 +5,7 @@ import argparse
 from typing import Optional, Sequence
 import sys
 
-_ENCODING = "utf-8"
-_ERROR_CODE_JSON_FILES_WRITTEN = 1
+from pre_commit_hooks import json_helper, constants
 
 
 def main(argv: Optional[Sequence[str]] = None) -> int:
@@ -17,16 +16,13 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
 
     return_code = 0
     for filename in args.filenames:
-        with open(filename, "r", encoding=_ENCODING) as curfile:
+        with open(filename, "r", encoding=constants.ENCODING) as curfile:
             data = curfile.read().strip()
             data_json = json.loads(data)
         # Ref: https://stackoverflow.com/a/33233406/6323360
         minified_json = json.dumps(data_json, separators=(",", ":")).strip()
-        if data != minified_json:
-            return_code = max(return_code, _ERROR_CODE_JSON_FILES_WRITTEN)
-            with open(filename, "w", encoding=_ENCODING) as curfile:
-                curfile.write(minified_json)
-                curfile.write("\n")
+        output_return_code = json_helper.output_file(filename, data, minified_json)
+        return_code = max(return_code, output_return_code)
 
     return return_code
 
