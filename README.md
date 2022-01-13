@@ -14,7 +14,9 @@ repos:
       - id: convert-beginning-tabs
         args: ["--tab-size", "2"] # defaults to 4 with no args
       - id: convert-beginning-spaces
-        args: ["--tab-size", "2"] # defaults to 4 with no args
+        # --tab-size defaults to 4 with no args
+        # --comment-char is empty string ("") by default
+        args: ["--tab-size", "2", "--comment-char", "*"]
       - id: convert-text-to-html
         args: [
             "--textfiles",
