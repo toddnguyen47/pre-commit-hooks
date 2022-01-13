@@ -10,8 +10,6 @@ from pre_commit_hooks import utils, constants
 
 # endregion
 
-_TABS_CHAR = "\t"
-
 
 def convert_file(full_path: str, num_spaces: int):
     """Convert a file's beginning spaces to tabs"""
@@ -25,7 +23,8 @@ def convert_file(full_path: str, num_spaces: int):
         line = lines.popleft()
         line = line.decode(encoding=constants.ENCODING)
         converted_line = convert_spaces_to_tabs(line, num_spaces)
-        new_lines.append((converted_line + "\n").encode(constants.ENCODING))
+        encoded_line = (converted_line + "\n").encode(constants.ENCODING)
+        new_lines.append(encoded_line)
 
     with open(full_path, mode="wb") as output_file:
         output_file.writelines(new_lines)
@@ -33,6 +32,11 @@ def convert_file(full_path: str, num_spaces: int):
 
 def convert_spaces_to_tabs(input_line: str, num_spaces: int) -> str:
     """Convert spaces to tabs"""
+
+    # GUARD: If input_line is just an empty line, then return early.
+    if input_line.strip() == "":
+        return ""
+
     only_whitespace_list = []
     remaining_str = ""
     for (index, char1) in enumerate(input_line):
@@ -41,13 +45,13 @@ def convert_spaces_to_tabs(input_line: str, num_spaces: int) -> str:
         else:
             remaining_str = input_line[index:]
             break
-    remaining_str = remaining_str.rstrip()
 
     space_str = _generate_space_str(num_spaces)
     only_whitespace_str = "".join(only_whitespace_list)
     only_whitespace_str = only_whitespace_str.replace(space_str, "\t")
 
     return_str = only_whitespace_str + remaining_str
+    return_str = return_str.rstrip()
     return return_str
 
 
@@ -70,11 +74,18 @@ def main(argv=None):
         default=4,
         dest="tab_size",
     )
+    parser.add_argument(
+        "--comment-char",
+        required=False,
+        help="the comment character to detect. Will ignore exactly ONE space preceding this comment character",
+    )
     parser.add_argument("filenames", nargs="*", help="filenames to check")
     args = parser.parse_args(argv)
 
     files_with_tabs = [
-        file1 for file1 in args.filenames if utils.contains_beginning_spaces(file1)
+        file1
+        for file1 in args.filenames
+        if utils.contains_beginning_spaces(file1, args.comment_char)
     ]
 
     for file_with_tabs in files_with_tabs:
