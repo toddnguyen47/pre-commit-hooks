@@ -2,32 +2,27 @@
 
 # region imports
 # *********************************************************
-import sys
 import argparse
-from collections import deque
+import sys
+from typing import List
 
-from pre_commit_hooks import utils, constants
+from pre_commit_hooks import constants, convert_beginning_helper, utils
 
 # endregion
 
 
 def convert_file(full_path: str, num_spaces: int):
     """Convert a file's beginning spaces to tabs"""
-    # We need to open using binary and encode/decode appropriate to enforce that files need to be saved
-    # with Linux line endings
-    with open(full_path, mode="rb") as input_file:
-        lines = input_file.readlines()
-    lines = deque(lines)
-    new_lines = []
-    while lines:
-        line = lines.popleft()
-        line = line.decode(encoding=constants.ENCODING)
-        converted_line = convert_spaces_to_tabs(line, num_spaces)
-        encoded_line = (converted_line + "\n").encode(constants.ENCODING)
-        new_lines.append(encoded_line)
+    convert_beginning_helper.read_file_convert(full_path, num_spaces, handle_per_line)
 
-    with open(full_path, mode="wb") as output_file:
-        output_file.writelines(new_lines)
+
+def handle_per_line(lines: List[str], num_spaces: int):
+    """Handle per line and return an encoded string"""
+    line = lines.popleft()
+    line = line.decode(encoding=constants.ENCODING)
+    converted_line = convert_spaces_to_tabs(line, num_spaces)
+    encoded_line = (converted_line + "\n").encode(constants.ENCODING)
+    return encoded_line
 
 
 def convert_spaces_to_tabs(input_line: str, num_spaces: int) -> str:
@@ -66,14 +61,7 @@ def _generate_space_str(num_spaces: int) -> str:
 def main(argv=None):
     """Ref: https://github.com/Lucas-C/pre-commit-hooks/blob/master/pre_commit_hooks/remove_tabs.py"""
     parser = argparse.ArgumentParser()
-    parser.add_argument(
-        "--tab-size",
-        type=int,
-        required=False,
-        help="number of whitespaces to be replaced by tabs. defaults to 4 spaces",
-        default=4,
-        dest="tab_size",
-    )
+    parser = convert_beginning_helper.add_tab_size_option(parser)
     parser.add_argument(
         "--comment-char",
         required=False,
@@ -97,10 +85,7 @@ def main(argv=None):
         print(
             "Beginning spaces have been successfully removed. Now aborting the commit."
         )
-        print(
-            'You can check the changes made. Then simply "git add --update ." and re-commit'
-        )
-        return 1
+        return convert_beginning_helper.print_check_changes_message()
     return 0
 
 
