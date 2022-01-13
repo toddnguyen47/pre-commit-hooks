@@ -4,6 +4,7 @@ import pytest
 
 from pre_commit_hooks import convert_beginning_tabs
 
+
 def test_given_beginning_tabs_when_converting_then_return_spaces():
     test_str = "		Hello World"
     actual_str = convert_beginning_tabs.convert_tabs_to_spaces(test_str, 4)

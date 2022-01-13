@@ -2,8 +2,15 @@
   name: Convert beginning tabs to space
   entry: convert-beginning-tabs
   language: python
-  description: "Replace beginning tabs by space before committing"
-  args: ["--whitespaces-count", "4"]
+  description: "Replace beginning tabs by spaces before committing"
+  args: ["--tab-size", "4"]
+  exclude: (Makefile|debian/rules|.gitmodules)(\.in)?$
+- id: convert-beginning-spaces
+  name: Convert beginning spaces to tabs
+  entry: convert-beginning-spaces
+  language: python
+  description: "Replace beginning spaces by tabs before committing"
+  args: ["--tab-size", "4"]
   exclude: (Makefile|debian/rules|.gitmodules)(\.in)?$
 - id: convert-text-to-html
   name: Convert text to html

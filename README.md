@@ -12,7 +12,9 @@ repos:
     rev: v1.1.0
     hooks:
       - id: convert-beginning-tabs
-        args: ["--whitespaces-count", "2"] # defaults to 4 with no args
+        args: ["--tab-size", "2"] # defaults to 4 with no args
+      - id: convert-beginning-spaces
+        args: ["--tab-size", "2"] # defaults to 4 with no args
       - id: convert-text-to-html
         args: [
             "--textfiles",
@@ -24,3 +26,10 @@ repos:
       - id: prettify-json
         args: ["--indent", "2"] # defaults to indenting with 2 spaces
 ```
+
+## Note when Adding More Hooks
+
+Change these files:
+1. `.pre-commit-hooks.yaml`
+2. `setup.cfg`
+3. `README.md`
