@@ -7,7 +7,7 @@ from pre_commit_hooks import constants
 _ERROR_CODE_JSON_FILES_WRITTEN = 1
 
 
-def output_file(filename: str, data: Any, fixed_json: Any):
+def output_file(filename: str, data: Any, fixed_json: Any, return_code: int):
     """Output to file"""
     if data != fixed_json:
         return_code = max(return_code, _ERROR_CODE_JSON_FILES_WRITTEN)
