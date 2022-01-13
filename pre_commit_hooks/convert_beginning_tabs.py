@@ -98,7 +98,7 @@ def _replace_tabs_with_respect_to_beginning_spaces(
 ) -> str:
     """Will replace tabs with respect to space in front of it.
     Let's use `s` for spaces and `t` for tabs.
-    For example, if the input string is `st`, and the tabsize is 4, then that tab should only be replaced
+    For example, if the input string is `st`, and the tab-size is 4, then that tab should only be replaced
     by 3 tabs.
     """
     # space_per_tab = _generate_space(num_spaces)
@@ -146,7 +146,7 @@ def main(argv=None):
         required=False,
         help="number of whitespaces to substitute tabs with. defaults to 4 spaces",
         default=4,
-        dest="tab_size"
+        dest="tab_size",
     )
     parser.add_argument("filenames", nargs="*", help="filenames to check")
     args = parser.parse_args(argv)

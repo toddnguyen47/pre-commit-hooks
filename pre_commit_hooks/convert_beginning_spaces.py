@@ -63,12 +63,12 @@ def main(argv=None):
     """Ref: https://github.com/Lucas-C/pre-commit-hooks/blob/master/pre_commit_hooks/remove_tabs.py"""
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        "--tabSize",
+        "--tab-size",
         type=int,
         required=False,
         help="number of whitespaces to be replaced by tabs. defaults to 4 spaces",
         default=4,
-        dest="tab_size"
+        dest="tab_size",
     )
     parser.add_argument("filenames", nargs="*", help="filenames to check")
     args = parser.parse_args(argv)
@@ -78,9 +78,7 @@ def main(argv=None):
     ]
 
     for file_with_tabs in files_with_tabs:
-        print(
-            f"In {file_with_tabs}, substituting {args.tab_size} spaces with tabs"
-        )
+        print(f"In {file_with_tabs}, substituting {args.tab_size} spaces with tabs")
         convert_file(file_with_tabs, args.tab_size)
 
     if files_with_tabs:
