@@ -25,8 +25,10 @@ repos:
             "10" # OPTIONAL: float value to use as margin ems. Defaults to 10.
         ]
       - id: minify-json
+        types: ["json"]
       - id: prettify-json
         args: ["--indent", "2"] # defaults to indenting with 2 spaces
+        types: ["json"]
 ```
 
 ## Note when Adding More Hooks
