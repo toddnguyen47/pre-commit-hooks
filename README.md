@@ -9,7 +9,7 @@ Pre-commit hooks to use with https://pre-commit.com/
 fail_fast: false
 repos:
   - repo: https://github.com/toddnguyen47/pre-commit-hooks
-    rev: v1.5.0
+    rev: TODO: insert_latest_version
     hooks:
       - id: convert-beginning-tabs
         args: ["--tab-size", "2"] # defaults to 4 with no args

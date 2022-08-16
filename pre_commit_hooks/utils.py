@@ -9,18 +9,18 @@ def contains_beginning_tabs(filename: str):
     """Check if `filename` contains tabs"""
     with open(filename, mode="rb") as file_checked:
         lines = file_checked.readlines()
-    return _contains_beginning_char_helper(lines, "\t")
+    return _contains_beginning_char_helper(filename, lines, "\t")
 
 
 def contains_beginning_spaces(filename: str, comment_char: str):
     """Check if `filename` contains spaces"""
     with open(filename, mode="rb") as file_checked:
         lines = file_checked.readlines()
-    return _contains_beginning_char_helper(lines, " ", comment_char)
+    return _contains_beginning_char_helper(filename, lines, " ", comment_char)
 
 
 def _contains_beginning_char_helper(
-    lines: List[str], char_to_find: str, comment_char: str = ""
+    filename: str, lines: List[str], char_to_find: str, comment_char: str = ""
 ) -> bool:
     found_char = False
     for (line_num, line) in enumerate(lines):
@@ -44,7 +44,14 @@ def _contains_beginning_char_helper(
                 found_char = not (char1 == " " and next_char == comment_char)
 
         if found_char:
-            print(f"OFFENDING LINE: Line number {line_num + 1}")
+            filename_only = _get_folder_and_filename(filename)
+            print(f"OFFENDING LINE: {filename_only}:{line_num + 1}")
             print(line)
             break
     return found_char
+
+def _get_folder_and_filename(filename: str) -> str:
+    delim = "/"
+    filename2 = filename.replace("\\", delim)
+    arr1 = filename2.split(delim)
+    return delim.join(arr1[-2:])
