@@ -44,6 +44,8 @@ def convert_spaces_to_tabs(input_line: str, num_spaces: int) -> str:
     space_str = _generate_space_str(num_spaces)
     only_whitespace_str = "".join(only_whitespace_list)
     only_whitespace_str = only_whitespace_str.replace(space_str, "\t")
+    # now, remove any leftover whitespace
+    only_whitespace_str = only_whitespace_str.replace(" ", "")
 
     return_str = only_whitespace_str + remaining_str
     return_str = return_str.rstrip()
