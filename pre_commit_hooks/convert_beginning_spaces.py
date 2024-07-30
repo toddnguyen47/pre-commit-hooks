@@ -11,21 +11,23 @@ from pre_commit_hooks import constants, convert_beginning_helper, utils
 # endregion
 
 
-def convert_file(full_path: str, num_spaces: int):
+def convert_file(full_path: str, num_spaces: int, comment_char: str):
     """Convert a file's beginning spaces to tabs"""
-    convert_beginning_helper.read_file_convert(full_path, num_spaces, handle_per_line)
+    convert_beginning_helper.read_file_convert(
+        full_path, num_spaces, comment_char, handle_per_line
+    )
 
 
-def handle_per_line(lines: List[str], num_spaces: int):
+def handle_per_line(lines: List[str], num_spaces: int, comment_char: str) -> List[str]:
     """Handle per line and return an encoded string"""
     line = lines.popleft()
     line = line.decode(encoding=constants.ENCODING)
-    converted_line = convert_spaces_to_tabs(line, num_spaces)
+    converted_line = convert_spaces_to_tabs(line, num_spaces, comment_char)
     encoded_line = (converted_line + "\n").encode(constants.ENCODING)
     return encoded_line
 
 
-def convert_spaces_to_tabs(input_line: str, num_spaces: int) -> str:
+def convert_spaces_to_tabs(input_line: str, num_spaces: int, comment_char: str) -> str:
     """Convert spaces to tabs"""
 
     # GUARD: If input_line is just an empty line, then return early.
@@ -34,7 +36,7 @@ def convert_spaces_to_tabs(input_line: str, num_spaces: int) -> str:
 
     only_whitespace_list = []
     remaining_str = ""
-    for (index, char1) in enumerate(input_line):
+    for index, char1 in enumerate(input_line):
         if char1.isspace():
             only_whitespace_list.append(char1)
         else:
@@ -47,7 +49,11 @@ def convert_spaces_to_tabs(input_line: str, num_spaces: int) -> str:
     # now, remove any leftover whitespace
     only_whitespace_str = only_whitespace_str.replace(" ", "")
 
-    return_str = only_whitespace_str + remaining_str
+    # if first character of remaining_str is a comment char then add exactly ONE space
+    extra_space = ""
+    if remaining_str[0] == comment_char:
+        extra_space = " "
+    return_str = only_whitespace_str + extra_space + remaining_str
     return_str = return_str.rstrip()
     return return_str
 
@@ -80,7 +86,7 @@ def main(argv=None):
 
     for file_with_tabs in files_with_tabs:
         print(f"In {file_with_tabs}, substituting {args.tab_size} spaces with tabs")
-        convert_file(file_with_tabs, args.tab_size)
+        convert_file(file_with_tabs, args.tab_size, args.comment_char)
 
     if files_with_tabs:
         print("")

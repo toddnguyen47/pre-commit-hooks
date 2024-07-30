@@ -19,13 +19,16 @@ def add_tab_size_option(parser: argparse.ArgumentParser) -> argparse.ArgumentPar
 
 
 def read_file_convert(
-    full_path: str, num_spaces: int, handle_per_line: Callable[[List[str], int], str]
+    full_path: str,
+    num_spaces: int,
+    comment_char: str,
+    handle_per_line: Callable[[List[str], int, str], str],
 ):
     """Read file and convert its beginning whitespace per line"""
     lines = _read_lines_rb(full_path)
     new_lines = []
     while lines:
-        encoded_str = handle_per_line(lines, num_spaces)
+        encoded_str = handle_per_line(lines, num_spaces, comment_char)
         new_lines.append(encoded_str)
 
     with open(full_path, mode="wb") as output_file:

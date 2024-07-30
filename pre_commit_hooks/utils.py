@@ -23,7 +23,7 @@ def _contains_beginning_char_helper(
     filename: str, lines: List[str], char_to_find: str, comment_char: str = ""
 ) -> bool:
     found_char = False
-    for (line_num, line) in enumerate(lines):
+    for line_num, line in enumerate(lines):
         line = line.decode(encoding=constants.ENCODING)
         if line.strip() == "":
             continue
@@ -38,7 +38,7 @@ def _contains_beginning_char_helper(
                 beginning_whitespace_list_with_comment_char.append(char1)
                 break
 
-        for (index, char1) in enumerate(beginning_whitespace_list_with_comment_char):
+        for index, char1 in enumerate(beginning_whitespace_list_with_comment_char):
             if char1 == char_to_find:
                 next_char = beginning_whitespace_list_with_comment_char[index + 1]
                 found_char = not (char1 == " " and next_char == comment_char)
@@ -49,6 +49,7 @@ def _contains_beginning_char_helper(
             print(line)
             break
     return found_char
+
 
 def _get_folder_and_filename(filename: str) -> str:
     delim = "/"

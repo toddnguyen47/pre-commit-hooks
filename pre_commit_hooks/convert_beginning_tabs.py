@@ -62,7 +62,9 @@ def convert_file_with_temp_output_file(full_path: str, num_spaces: int):
 
 def convert_file(full_path: str, num_spaces: int):
     """Convert a file's beginning tabs to spaces"""
-    convert_beginning_helper.read_file_convert(full_path, num_spaces, handle_per_line)
+    convert_beginning_helper.read_file_convert(
+        full_path, num_spaces, "", handle_per_line
+    )
 
 
 def handle_per_line(lines: List[str], num_spaces: int) -> str:
@@ -144,11 +146,7 @@ def main(argv=None):
     ]
 
     for file_with_tabs in files_with_tabs:
-        print(
-            "Substituting tabs in: {0} by {1} whitespaces".format(
-                file_with_tabs, args.tab_size
-            )
-        )
+        print(f"Substituting tabs in: {file_with_tabs} by {args.tab_size} whitespaces")
         convert_file(file_with_tabs, args.tab_size)
 
     if files_with_tabs:

@@ -30,7 +30,9 @@ def _handle_per_file(filename: str, spaces_indent: int, return_code: int) -> int
     with open(filename, "r", encoding=constants.ENCODING) as curfile:
         data = curfile.read().strip()
         data_json = json.loads(data)
-    prettified_json = json.dumps(data_json, indent=spaces_indent, ensure_ascii=False).strip()
+    prettified_json = json.dumps(
+        data_json, indent=spaces_indent, ensure_ascii=False
+    ).strip()
     output_return_code = json_helper.output_file(
         filename, data, prettified_json, return_code
     )
